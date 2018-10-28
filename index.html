@@ -3,7 +3,7 @@
 <html>
 	<!-- This is what a comment looks like -->
 	<head>
-		<title>todo Home</title>
+		<title>Air Quality Map</title>
 		<meta charset="utf-8">
 		<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7/leaflet.css" />
 		<script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
@@ -13,13 +13,15 @@
 
 	</head>
 	<body>
-		<h1>Header one</h1>
-			<nav>
-				<ul>
-					<li><a href="index.html" class="current">Air Quality Map</a></li>
-					<li><a href="aboutme.html">About Me</a></li>
-				</ul>
-			</nav>
+		<nav>
+			<ul>
+				<li><a href="index.html" class="current">Air Quality Map</a></li>
+				<li><a href="aboutme.html">About Me</a></li>
+			</ul>
+		</nav>
+		<div id="searchBox">
+			<!-- TODO: searchbox using locationiq, will then send the latitude/longitude into map.setView -->
+		</div>
 		<div id="map"></div>
 		<script type="text/javascript">
 		var mapboxTiles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -29,6 +31,11 @@
 		var map = L.map('map')
 			.addLayer(mapboxTiles)
 			.setView([40.72332345541449, -73.99], 10);
+
+		var searchLayer = L.layerGroup().addTo(map);
+		//... adding data in searchLayer ...
+		map.addControl( new L.Control.Search({layer: searchLayer}) );
+		//searchLayer is a L.LayerGroup contains searched markers
 		</script>
 	</body>
 </html>
