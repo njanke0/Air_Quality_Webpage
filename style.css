@@ -9,7 +9,7 @@ body {
 
 header {
 	height: 160px;
-	background-image: url("background.jpg");
+	background-image: url("map-header.jpg");
 }
 
 h1 {
@@ -64,7 +64,7 @@ h1, h2, h3 {
 }
 
 h2 {
-	margin: 10px 0px 5px 0px;
+	margin: 60px 0px 5px 0px;
 	padding: 0px;
 }
 
