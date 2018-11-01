@@ -13,7 +13,7 @@
 
 	</head>
 	<body>
-		<header></header>
+		<header>Air Quality Map</header>
 		<nav>
 			<ul>
 				<li><a href="index.html" class="current">Air Quality Map</a></li>
@@ -23,6 +23,50 @@
 		<ais-search-box placeholder="Find products..."></ais-search-box>
 		<div id="searchBox">
 			<!-- TODO: searchbox using locationiq, will then send the latitude/longitude into map.setView -->
+			<div id="vuesearch">
+			URL: <input type="text" v-model.trim="url" v-on:keyup.enter="xhr">
+  			<button v-on:click="xhr">Search</button><br>
+  			<pre>{{ info }}</pre>
+  			</div>
+
+  			<script type="text/javascript">
+  				new Vue({
+			    el: '#vuesearch',
+			    data: {
+			    url: "https://us1.locationiq.com/v1/search.php?key=174d247abdd29b&q=Empire%20State%20Building&format=json",
+			    info: ""
+			  },
+			  methods: {
+			    xhr: function() {
+			      this.info = "Requesting ...";
+			      var rq = new XMLHttpRequest();
+
+			      rq.onreadystatechange = function(vm) {
+			        if (this.readyState === XMLHttpRequest.DONE) {
+			          if (this.status === 200) {
+			            vm.info = this.responseText;
+			          } else {
+			            vm.info = "Request Failed";
+			          }
+			        }
+			      }.bind(rq, this);
+
+			      rq.open("GET", this.url);
+			      rq.send();
+			    }
+			  }
+			})
+  			</script>
+
+			<script type="text/javascript">
+				var settings = {
+			    "async": true,
+			    "crossDomain": true,
+			    "url": "https://us1.locationiq.com/v1/search.php?key=174d247abdd29b&q=Empire%20State%20Building&format=json",
+			    "method": "GET"
+			    }
+			    
+			</script>
 		</div>
 		<div id="map"></div>
 		<script type="text/javascript">
@@ -36,7 +80,7 @@
 
 		var searchLayer = L.layerGroup().addTo(map);
 		//... adding data in searchLayer ...
-		map.addControl( new L.Control.Search({layer: searchLayer}) );
+		//map.addControl( new L.Control.Search({layer: searchLayer}) );
 		//searchLayer is a L.LayerGroup contains searched markers
 		</script>
 	</body>
