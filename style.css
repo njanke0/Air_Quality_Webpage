@@ -8,6 +8,9 @@ body {
 }
 
 header {
+	color: #fc0505;
+	font-size: 6em;
+	text-align: center;
 	height: 160px;
 	background-image: url("map-header.jpg");
 }
