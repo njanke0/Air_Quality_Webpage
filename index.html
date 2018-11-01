@@ -29,25 +29,16 @@
 		<script type="text/javascript">
 
 		var map = L.map('map').setView([40.72332345541449, -73.99], 10);
-		var mapboxTiles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+
+		var tiles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 			attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 		}).addTo(map);
 
-		addressPoints = addressPoints.map(function (p) { return [p[0], p[1]]; });
-
-		var heat = L.heatLayer(addressPoints).addTo(map), 
-		      draw = true; 
-
-
+		
 		var heat = L.heatLayer([
-			[40.7, -74.9, 100], // lat, lng, intensity
-			[50.6, 30.4, 1.5],
-			], {radius: 250}).addTo(map);
+		[40.72332345541449, -73.99, 100.0] // lat, lng, intensity
+	], {radius: 25}).addTo(map);
 
-		var searchLayer = L.layerGroup().addTo(map);
-		//... adding data in searchLayer ...
-		map.addControl( new L.Control.Search({layer: searchLayer}) );
-		//searchLayer is a L.LayerGroup contains searched markers
 
 		</script>
 	</body>
