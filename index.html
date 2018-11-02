@@ -72,7 +72,7 @@
 		<script src="leaflet-heat.js"></script>
 		<script type="text/javascript">
 
-		var map = L.map('map').setView([40.72332345541449, -73.99], 10);
+		var map = L.map('map').setView([44.9537, -93.0900], 10);
 
 		var tiles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 			attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -89,17 +89,17 @@
 		    popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
 		});
 
-		var particleSpot = [40.72332345541449, -73.99];
+		var particleSpot = [44.9537, -93.0900];
 
-		var marker = L.marker([40.72332345541449, -73.99],{icon: greenIcon}).addTo(map).bindPopup("I am a green leaf.");
+		var marker = L.marker([44.9537, -93.0900],{icon: greenIcon}).addTo(map).bindPopup("This is a air quality measurement.");
 
 		var heat = L.heatLayer([
 		[particleSpot[0], particleSpot[1], 200.0] // lat, lng, intensity (each member of this list is another point to add the heat to. Just import the station data as a list)
 		], {radius: 30}).addTo(map);
 
-		var map = L.map('map')
-			.addLayer(mapboxTiles)
-			.setView([44.9537, -93.0900], 12);
+		//var map = L.map('map')
+		//	.addLayer(mapboxTiles)
+		//	.setView([44.9537, -93.0900], 12);
 
 		var searchLayer = L.layerGroup().addTo(map);
 		//... adding data in searchLayer ...
