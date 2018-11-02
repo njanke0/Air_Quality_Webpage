@@ -70,6 +70,7 @@
 		</div>
 		<div id="map"></div>
 		<script src="leaflet-heat.js"></script>
+		<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 		<script type="text/javascript">
 
 		var map = L.map('map').setView([44.9537, -93.0900], 10);
@@ -105,6 +106,36 @@
 		//... adding data in searchLayer ...
 		//map.addControl( new L.Control.Search({layer: searchLayer}) );
 		//searchLayer is a L.LayerGroup contains searched markers
+
+		//Get the data to populate the map we will need to wait until there is a pause in the movements
+		const url = "https://api.openaq.org/v1/locations?coordinates=44.9537,-93.0900&radius=25000";
+		const vm = new Vue({
+        el: '#app',
+        data: {
+          results: []
+        },
+        mounted() {
+          axios.get(url).then(response => {
+            this.results = response.data
+
+            //All the data
+
+            //One city long and lat example - Just loop -
+            console.log(response.data.results[0].coordinates.longitude);
+            console.log(response.data.results[0].coordinates.latitude);
+            console.log(response);
+            for(var i = 0; i < response.data.results.length; i++)
+            {
+            	console.log(i);
+            	if (response.data.results[i].hasOwnProperty('coordinates')){
+            		var marker = L.marker([response.data.results[i].coordinates.latitude, response.data.results[i].coordinates.longitude],{icon: greenIcon}).addTo(map).bindPopup("This is a air quality measurement.");
+            	}
+            }
+            console.log(response);
+
+          })
+        }
+      });
 		</script>
 	</body>
 </html>
