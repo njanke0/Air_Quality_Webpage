@@ -25,17 +25,22 @@
 		<div id="searchBox">
 			<!-- TODO: searchbox using locationiq, will then send the latitude/longitude into map.setView -->
 			<div id="vuesearch">
-			URL: <input type="text" v-model.trim="url" v-on:keyup.enter="xhr">
+			URL: <input type="text" v-model.trim="location" v-on:keyup.enter="xhr">
   			<button v-on:click="xhr">Search</button><br>
-  			<pre v-if="info.length > 0 && info[0].hasOwnProperty('lat')">{{ info[0].lat }}</pre>
+  			<pre v-if="info.length > 0 && info[0].hasOwnProperty('lat') && info[0].hasOwnProperty('lon')">{{ info[0].lat }} , {{ info[0].lon }}</pre>
   			</div>
 
   			<script type="text/javascript">
   				var vueApp = new Vue({
 			    	el: '#vuesearch',
 			    	data: {
-			    		url: "https://us1.locationiq.com/v1/search.php?key=174d247abdd29b&q=Empire%20State%20Building&format=json",
+			    		location: "Empire State Building",
 			    		info: []
+			 	 	},
+			 	 	computed: {
+			 	 		url: function(){
+			 	 			return "https://us1.locationiq.com/v1/search.php?key=174d247abdd29b&q=" + encodeURI(this.location) + "&format=json"
+			 	 		}
 			 	 	},
 			 	 	methods: {
 					    xhr: function() {
@@ -51,12 +56,9 @@
 					          }
 					        }
 					      };
-
+					      console.log(vueApp.url);
 					      rq.open("GET", vueApp.url);
 					      rq.send();
-					      console.log("#################")
-					      console.log(vueApp.info)
-					      console.log("#################")
 					    }
 			  }
 			})
