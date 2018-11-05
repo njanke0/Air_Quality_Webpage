@@ -27,36 +27,40 @@
 			<div id="vuesearch">
 			URL: <input type="text" v-model.trim="url" v-on:keyup.enter="xhr">
   			<button v-on:click="xhr">Search</button><br>
-  			<pre>{{ info }}</pre>
+  			<pre v-if="info.length > 0 && info[0].hasOwnProperty('lat')">{{ info[0].lat }}</pre>
   			</div>
 
   			<script type="text/javascript">
-  				new Vue({
-			    el: '#vuesearch',
-			    data: {
-			    url: "https://us1.locationiq.com/v1/search.php?key=174d247abdd29b&q=Empire%20State%20Building&format=json",
-			    info: ""
-			  },
-			  methods: {
-			    xhr: function() {
-			      this.info = "Requesting ...";
-			      var rq = new XMLHttpRequest();
+  				var vueApp = new Vue({
+			    	el: '#vuesearch',
+			    	data: {
+			    		url: "https://us1.locationiq.com/v1/search.php?key=174d247abdd29b&q=Empire%20State%20Building&format=json",
+			    		info: []
+			 	 	},
+			 	 	methods: {
+					    xhr: function() {
+					      vueApp.info = "Requesting ...";
+					      var rq = new XMLHttpRequest();
 
-			      rq.onreadystatechange = function(vm) {
-			        if (this.readyState === XMLHttpRequest.DONE) {
-			          if (this.status === 200) {
-			            vm.info = this.responseText;
-			          } else {
-			            vm.info = "Request Failed";
-			          }
-			        }
-			      }.bind(rq, this);
+					      rq.onreadystatechange = function() {
+					        if (rq.readyState === XMLHttpRequest.DONE) {
+					          if (rq.status === 200) {
+					            vueApp.info = JSON.parse(rq.responseText);
+					          } else {
+					            vueApp.info = "Request Failed";
+					          }
+					        }
+					      };
 
-			      rq.open("GET", this.url);
-			      rq.send();
-			    }
+					      rq.open("GET", vueApp.url);
+					      rq.send();
+					      console.log("#################")
+					      console.log(vueApp.info)
+					      console.log("#################")
+					    }
 			  }
 			})
+  				
   			</script>
 
 			<script type="text/javascript">
