@@ -113,10 +113,18 @@
 		//... adding data in searchLayer ...
 		//map.addControl( new L.Control.Search({layer: searchLayer}) );
 		//searchLayer is a L.LayerGroup contains searched markers
+
+		//location vars
+		var curLat, curLong, current_center, current_radius;
 		
 		//Get the data to populate the map we will need to wait until there is a pause in the movements
 		map.on('moveend', function() {
-			const url = "https://api.openaq.org/v1/measurements?coordinates=44.9537,-93.0900&radius=25000";
+			current_corner = map.getBounds().getNorthEast();
+			current_radius = current_corner.distanceTo(map.getCenter());
+			curLat = map.getCenter().lat;
+			curLong = map.getCenter().lng;
+			//current_radius = current_distance/1000;
+			const url = "https://api.openaq.org/v1/measurements?coordinates="+curLat+","+curLong+"&radius="+current_radius+"";
 			const vm = new Vue({
 	        el: '#app',
 	        data: {
@@ -127,12 +135,9 @@
 	            this.results = response.data
 	            //All the data
 	            //One city long and lat example - Just loop -
-	            console.log(response.data.results[0].coordinates.longitude);
-	            console.log(response.data.results[0].coordinates.latitude);
 	            console.log(response);
 	            for(var i = 0; i < response.data.results.length; i++)
 	            {
-	            	console.log(i);
 	 					if (response.data.results[i].hasOwnProperty('coordinates')){
 	            			var marker = L.marker([response.data.results[i].coordinates.latitude, response.data.results[i].coordinates.longitude],{icon: greenIcon}).addTo(map).bindPopup("This is a air quality measurement.");
 	            	}           	
