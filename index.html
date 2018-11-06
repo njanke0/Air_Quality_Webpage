@@ -116,9 +116,15 @@
 
 		//location vars
 		var curLat, curLong, current_center, current_radius;
+
+		//Measurements
+		
+
+		var measurementList = [];
 		
 		//Get the data to populate the map we will need to wait until there is a pause in the movements
 		map.on('moveend', function() {
+			//setTimeout(function(){}, 100000);
 			current_corner = map.getBounds().getNorthEast();
 			current_radius = current_corner.distanceTo(map.getCenter());
 			curLat = map.getCenter().lat;
@@ -135,11 +141,60 @@
 	            this.results = response.data
 	            //All the data
 	            //One city long and lat example - Just loop -
-	            console.log(response);
 	            for(var i = 0; i < response.data.results.length; i++)
 	            {
 	 					if (response.data.results[i].hasOwnProperty('coordinates')){
-	            			var marker = L.marker([response.data.results[i].coordinates.latitude, response.data.results[i].coordinates.longitude],{icon: greenIcon}).addTo(map).bindPopup("This is a air quality measurement.");
+	            			//var marker = L.marker([response.data.results[i].coordinates.latitude, response.data.results[i].coordinates.longitude],{icon: greenIcon}).addTo(map).bindPopup("This is a air quality measurement.");
+	            			if(measurementList.length == 0)
+	            			{
+
+            					var measurements = {
+									longitude: response.data.results[i].coordinates.longitude,
+									latitude: response.data.results[i].coordinates.latitude,
+									pm25: null,
+									pm10: null,
+									so2: null,
+									no2: null,
+									o3: null,
+									co: null,
+									bc: null
+								}
+            					var meas = response.data.results[i].parameter;
+            					measurements.meas = response.data.results[i].value;
+            					measurementList.push(measurements);
+            					console.log(measurementList.longitude);
+	            			}
+
+	            			for(var k = 0; k < measurementList.length; k++)
+	            			{
+
+	            				if(measurementList[k].longitude == response.data.results[i].coordinates.longitude && 
+	            					measurementList[k].latitude == response.data.results[i].coordinates.latitude &&
+	            					measurementList.length > 0)
+	            				{
+
+
+	            					var meas = response.data.results[i].parameter;
+	            					measurementList[k].meas = response.data.results[i].value;
+	            				}
+	            				else
+	            				{
+	            					var measurements = {
+										longitude: response.data.results[i].coordinates.longitude,
+										latitude: response.data.results[i].coordinates.latitude,
+										pm25: null,
+										pm10: null,
+										so2: null,
+										no2: null,
+										o3: null,
+										co: null,
+										bc: null
+									}
+	            					var meas = response.data.results[i].parameter;
+	            					measurements.meas = response.data.results[i].value;
+	            					measurementList.push(measurements);
+	            				}
+	            			}
 	            	}           	
 	            }
 	            console.log(response);
