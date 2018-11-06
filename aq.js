@@ -67,6 +67,7 @@ map.on('moveend', function() {
         axios.get(url).then(response => {
         vueModel.results = response.data;
         var results = vueModel.results;
+        vueModel.items = [];
         //All the data
         //One city long and lat example - Just loop -
         for(var i = 0; i < response.data.results.length; i++)
@@ -88,33 +89,41 @@ map.on('moveend', function() {
 						bc: null
 					});
 					var meas = response.data.results[i].parameter;
-					vueModel.items[0].meas = response.data.results[i].value;
+					vueModel.items[0][meas] = response.data.results[i].value;
     			}
+
+				var found = false;
     			for(var k = 0; k < vueModel.items.length; k++)
     			{
+
     				if(vueModel.items[k].longitude == response.data.results[i].coordinates.longitude && 
-    					vueModel.items[k].latitude == response.data.results[i].coordinates.latitude &&
-    					vueModel.items.length > 0)
+    					vueModel.items[k].latitude == response.data.results[i].coordinates.latitude
+    					)
     				{
+	    				//console.log(i);
+	    				found = true;
     					var meas = response.data.results[i].parameter;
-    					vueModel.items[k].meas = response.data.results[i].value;
+    					vueModel.items[k][meas] = response.data.results[i].value;
+						console.log(vueModel.items);
+    					break;
     				}
-    				else
-    				{
-						vueModel.items.push({
-							latitude: response.data.results[i].coordinates.latitude,
-							longitude: response.data.results[i].coordinates.longitude,
-							pm25: null,
-							pm10: null,
-							so2: null,
-							no2: null,
-							o3: null,
-							co: null,
-							bc: null
-						});
-    					var meas = response.data.results[i].parameter;
-    					vueModel.items[vueModel.items.length-1].meas = response.data.results[i].value;
-    				}
+
+    			}
+    			if(!found)
+    			{
+					vueModel.items.push({
+						latitude: response.data.results[i].coordinates.latitude,
+						longitude: response.data.results[i].coordinates.longitude,
+						pm25: null,
+						pm10: null,
+						so2: null,
+						no2: null,
+						o3: null,
+						co: null,
+						bc: null
+					});
+					var meas = response.data.results[i].parameter;
+					vueModel.items[vueModel.items.length-1][meas] = response.data.results[i].value;
     			}
         	}           	
         }
