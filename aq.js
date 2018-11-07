@@ -78,8 +78,8 @@ map.on('moveend', function() {
     			if(vueModel.items.length == 0)
     			{
 					vueModel.items.push({
-						latitude: response.data.results[i].coordinates.latitude,
-						longitude: response.data.results[i].coordinates.longitude,
+						latitude: Math.round(response.data.results[i].coordinates.latitude*1000)/1000,
+						longitude: Math.round(response.data.results[i].coordinates.longitude*1000)/1000,
 						pm25: null,
 						pm10: null,
 						so2: null,
@@ -96,8 +96,8 @@ map.on('moveend', function() {
     			for(var k = 0; k < vueModel.items.length; k++)
     			{
 
-    				if(vueModel.items[k].longitude == response.data.results[i].coordinates.longitude && 
-    					vueModel.items[k].latitude == response.data.results[i].coordinates.latitude
+    				if(vueModel.items[k].longitude == Math.round(response.data.results[i].coordinates.longitude*1000)/1000 && 
+    					vueModel.items[k].latitude == Math.round(response.data.results[i].coordinates.latitude*1000)/1000
     					)
     				{
 	    				//console.log(i);
@@ -112,8 +112,8 @@ map.on('moveend', function() {
     			if(!found)
     			{
 					vueModel.items.push({
-						latitude: response.data.results[i].coordinates.latitude,
-						longitude: response.data.results[i].coordinates.longitude,
+						latitude: Math.round(response.data.results[i].coordinates.latitude*1000)/1000,
+						longitude: Math.round(response.data.results[i].coordinates.longitude*1000)/1000,
 						pm25: null,
 						pm10: null,
 						so2: null,
