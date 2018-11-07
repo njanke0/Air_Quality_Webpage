@@ -4,7 +4,49 @@ var vueModel = new Vue({
 		latitude: 44.9537,
 		longitude: -93.0900,
 		results: [],
-		items: []
+		items: [],
+		location: "Empire State Building",
+		info: []
+	},
+	computed: {
+		url: function() {
+ 			return "https://us1.locationiq.com/v1/search.php?key=174d247abdd29b&q=" + encodeURI(this.location) + "&format=json"
+ 		}
+	},
+	methods: {
+		xhr: function() {
+			var wholething = document.getElementById("whole_thing")
+			if (wholething.requestFullscreen) {
+			  wholething.requestFullscreen();
+			} else if (wholething.msRequestFullscreen) {
+			  wholething.msRequestFullscreen();
+			} else if (wholething.mozRequestFullScreen) {
+			  wholething.mozRequestFullScreen();
+			} else if (wholething.webkitRequestFullscreen) {
+			  wholething.webkitRequestFullscreen();
+			}
+
+			vueModel.info = "Requesting ...";
+			var rq = new XMLHttpRequest();
+
+			rq.onreadystatechange = function() {
+				if (rq.readyState === XMLHttpRequest.DONE) {
+					if (rq.status === 200) {
+						vueModel.info = JSON.parse(rq.responseText);
+						if (vueModel.info.length > 0 && vueModel.info[0].hasOwnProperty('lat') && vueModel.info[0].hasOwnProperty('lon')) {
+							vueModel.latitude = vueModel.info[0].lat;
+							vueModel.longitude = vueModel.info[0].lon;
+							map.setView([vueModel.latitude, vueModel.longitude], map.getZoom());
+						}
+					} else {
+						vueModel.info = "Request Failed";
+					}
+				}
+			};
+			console.log(vueModel.url);
+			rq.open("GET", vueModel.url);
+			rq.send();
+		}
 	}
 });
 
@@ -69,7 +111,7 @@ map.on('moveend', function() {
         var results = vueModel.results;
         //All the data
         //One city long and lat example - Just loop -
-        for(var i = 0; i < response.data.results.length; i++)
+        /*for(var i = 0; i < response.data.results.length; i++)
         {
 				if (response.data.results[i].hasOwnProperty('coordinates'))
 				{
@@ -117,7 +159,9 @@ map.on('moveend', function() {
     				}
     			}
         	}           	
-        }
+        }*/
       })
 	}, 1000);
 });
+
+

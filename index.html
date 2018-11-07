@@ -29,47 +29,6 @@
 	  			<button v-on:click="xhr">Search</button><br>
 	  			<pre v-if="info.length > 0 && info[0].hasOwnProperty('lat') && info[0].hasOwnProperty('lon')">{{ info[0].lat }} , {{ info[0].lon }}</pre>
 	  			</div> <!-- vuesearch div -->
-	  			<script type="text/javascript">
-	  				var vueApp = new Vue({
-				    	el: '#vuesearch',
-				    	data: {
-				    		location: "Empire State Building",
-				    		info: []
-				 	 	},
-				 	 	computed: {
-				 	 		url: function(){
-				 	 			return "https://us1.locationiq.com/v1/search.php?key=174d247abdd29b&q=" + encodeURI(this.location) + "&format=json"
-				 	 		}
-				 	 	},
-				 	 	methods: {
-						    xhr: function() {
-						      vueApp.info = "Requesting ...";
-						      var rq = new XMLHttpRequest();
-
-						      rq.onreadystatechange = function() {
-						        if (rq.readyState === XMLHttpRequest.DONE) {
-						          if (rq.status === 200) {
-						            vueApp.info = JSON.parse(rq.responseText);
-						          } else {
-						            vueApp.info = "Request Failed";
-						          }
-						        }
-						      };
-						      console.log(vueApp.url);
-						      rq.open("GET", vueApp.url);
-						      rq.send();
-						    }
-				  }
-				})	  				
-	  			</script>
-				<script type="text/javascript">
-					var settings = {
-				    "async": true,
-				    "crossDomain": true,
-				    "url": "https://us1.locationiq.com/v1/search.php?key=174d247abdd29b&q=Empire%20State%20Building&format=json",
-				    "method": "GET"
-				    }	    
-				</script>
 			</div>
 			<div id="map"></div>
 		</div>
