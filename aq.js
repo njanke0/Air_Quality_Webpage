@@ -25,7 +25,9 @@ var vueModel = new Vue({
 			} else if (fullscreen.webkitRequestFullscreen) {
 			  fullscreen.webkitRequestFullscreen();
 			}
+		},
 
+		search: function() {
 			vueModel.info = "Requesting ...";
 			var rq = new XMLHttpRequest();
 
