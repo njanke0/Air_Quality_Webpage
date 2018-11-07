@@ -112,7 +112,7 @@ map.on('moveend', function() {
         vueModel.items = [];
         //All the data
         //One city long and lat example - Just loop -
-        /*for(var i = 0; i < response.data.results.length; i++)
+        for(var i = 0; i < response.data.results.length; i++)
         {
 				if (response.data.results[i].hasOwnProperty('coordinates'))
 				{
@@ -168,9 +168,6 @@ map.on('moveend', function() {
 					vueModel.items[vueModel.items.length-1][meas] = response.data.results[i].value;
     			}
         	}           	
-<<<<<<< HEAD
-        }*/
-=======
         }
 
         //Populate the AQ markers on the map
@@ -239,7 +236,6 @@ map.on('moveend', function() {
 			  this.openPopup();
 			});;
         }
->>>>>>> fa490889aafb002e1c00e8ecab3c1dec2a3eeb1f
       })
 	}, 1000);
 });
