@@ -59,9 +59,9 @@ map.on('moveend', function() {
 	updateTimeout = setTimeout(function() {
 		updateTimeout = null;
 		current_corner = map.getBounds().getNorthEast();
-		current_radius = current_corner.distanceTo(map.getCenter());
-		vueModel.latitude = map.getCenter().lat;
-		vueModel.longitude = map.getCenter().lng;
+		current_radius = Math.round(current_corner.distanceTo(map.getCenter()));
+		vueModel.latitude = Math.round((map.getCenter().lat)*1000)/1000;
+		vueModel.longitude = Math.round((map.getCenter().lng)*1000)/1000;
 		//current_radius = current_distance/1000;
 		const url = "https://api.openaq.org/v1/measurements?coordinates="+vueModel.latitude+","+vueModel.longitude+"&radius="+current_radius+"";
         axios.get(url).then(response => {
@@ -104,7 +104,7 @@ map.on('moveend', function() {
 	    				found = true;
     					var meas = response.data.results[i].parameter;
     					vueModel.items[k][meas] = response.data.results[i].value;
-						console.log(vueModel.items);
+						//console.log(vueModel.items);
     					break;
     				}
 
@@ -126,6 +126,73 @@ map.on('moveend', function() {
 					vueModel.items[vueModel.items.length-1][meas] = response.data.results[i].value;
     			}
         	}           	
+        }
+
+        //Populate the AQ markers on the map
+        for(var i = 0; i < vueModel.items.length; i++)
+        {
+        	var _long = vueModel.items[i].longitude;
+        	var _lat = vueModel.items[i].latitude;
+        	var pm25 = vueModel.items[i].pm25;
+        	var pm10 = vueModel.items[i].pm10;
+        	var so2 = vueModel.items[i].so2;
+        	var no2 = vueModel.items[i].no2;
+        	var o3 = vueModel.items[i].o3;
+        	var co = vueModel.items[i].co;
+        	var bc = vueModel.items[i].bc;
+
+			var ul = document.createElement('ul');
+
+		    if(_long != null)
+		    	{
+		   		var li = document.createElement('li');
+			    ul.appendChild(li);
+		    	li.innerHTML += "Longitude: "+_long;}
+		    if(_lat != null)
+		    	{
+		   		var li2 = document.createElement('li');
+		   		ul.appendChild(li2);
+		    	li2.innerHTML += "Latitude: "+_lat;}
+		    if(pm25 != null)
+		    	{
+		   		var li3 = document.createElement('li');
+		  		ul.appendChild(li3);
+		    	li3.innerHTML += "PM25: "+pm25;}
+		    if(pm10 != null)
+		    	{
+		   		var li4 = document.createElement('li');
+		  		ul.appendChild(li4);
+		    	li4.innerHTML += "PM10: "+pm10;}
+		    if(so2 != null)
+		    	{
+		 		var li5 = document.createElement('li');
+		  		ul.appendChild(li5);
+		    	li5.innerHTML += "SO2: "+so2;}
+		    if(no2 != null)
+		    	{
+		  		var li6 = document.createElement('li');
+		  		ul.appendChild(li6);
+		    	li6.innerHTML += "NO2: "+no2;}
+		    if(o3 != null)
+		    	{
+		   		var li7 = document.createElement('li');
+		  		ul.appendChild(li7);
+		    	li7.innerHTML += "O3: "+o3;}
+		    if(co != null)
+		    	{
+		   		var li8 = document.createElement('li');
+		  		ul.appendChild(li8);
+		    	li8.innerHTML += "CO: "+co;}
+		    if(bc != null)
+		    	{
+		   	 	var li9 = document.createElement('li');
+		  		ul.appendChild(li9);
+		    	li9.innerHTML += "BC: "+bc;}
+
+			marker = L.marker([_lat, _long],{icon: greenIcon}).addTo(map)
+			.bindPopup(ul).on('mouseover', function(event){
+			  this.openPopup();
+			});;
         }
       })
 	}, 1000);
