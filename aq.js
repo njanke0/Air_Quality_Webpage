@@ -15,15 +15,15 @@ var vueModel = new Vue({
 	},
 	methods: {
 		xhr: function() {
-			var wholething = document.getElementById("whole_thing")
-			if (wholething.requestFullscreen) {
-			  wholething.requestFullscreen();
-			} else if (wholething.msRequestFullscreen) {
-			  wholething.msRequestFullscreen();
-			} else if (wholething.mozRequestFullScreen) {
-			  wholething.mozRequestFullScreen();
-			} else if (wholething.webkitRequestFullscreen) {
-			  wholething.webkitRequestFullscreen();
+			var fullscreen = document.getElementById("fullscreen")
+			if (fullscreen.requestFullscreen) {
+			  fullscreen.requestFullscreen();
+			} else if (fullscreen.msRequestFullscreen) {
+			  fullscreen.msRequestFullscreen();
+			} else if (fullscreen.mozRequestFullScreen) {
+			  fullscreen.mozRequestFullScreen();
+			} else if (fullscreen.webkitRequestFullscreen) {
+			  fullscreen.webkitRequestFullscreen();
 			}
 
 			vueModel.info = "Requesting ...";
