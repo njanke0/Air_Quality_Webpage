@@ -22,10 +22,18 @@ h1 {
 	margin: 0px;
 }
 
+table {
+	table-layout:fixed;
+	width: 70%;
+	text-align:center;
+    margin-left:auto; 
+    margin-right:auto;
+}
+
 th {
+	text-align:center;
 	padding-top: 12px;
 	padding-bottom: 12px;
-	text-align: left;
 	background-color: #4CAF50;
 	color: white;
 }

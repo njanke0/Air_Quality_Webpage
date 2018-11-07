@@ -31,7 +31,31 @@
 	  			</div> <!-- vuesearch div -->
 			</div>
 			<div id="map"></div>
-			<div id="measurement_list"></div>
+			<table>
+				<tr>
+				  <th>Longitude</th>
+				  <th>Latitude</th>
+				  <th>PM25</th>		
+				  <th>PM10</th>
+				  <th>SO2</th>
+				  <th>NO2</th>
+				  <th>O3</th>
+				  <th>CO</th>
+				  <th>BC</th>
+				</tr>
+				<tr v-for="item in items">
+			      <td>{{ item.longitude }}</td>
+			      <td>{{ item.latitude }}</td>
+			      <td>{{ item.pm25 }}</td>
+			      <td>{{ item.pm10 }}</td>
+			      <td>{{ item.so2 }}</td>
+			      <td>{{ item.no2 }}</td>
+			      <td>{{ item.o3 }}</td>
+			      <td>{{ item.co }}</td>
+			      <td>{{ item.bc }}</td>
+			    </tr>						
+			</table>
+
 		</div>
 		<script src="leaflet-heat.js"></script>
 		<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
