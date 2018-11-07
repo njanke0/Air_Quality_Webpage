@@ -83,3 +83,14 @@ h3 {
 	margin: 0px 0px 10px 0px;
 	color: #de6581;
 }
+
+#johnpic {
+	width: 25%;
+	height: 100%;
+	float: left;
+}
+#nickpic {
+	width: 25%;
+	height: 100%;
+	float: left;
+}
